@@ -1,0 +1,3 @@
+# m h  dom mon dow   command
+*/2 * * * * /bin/bash /home/randomodai/odai_randomizer.sh > /dev/null
+*/3 * * * * /bin/bash /home/randomodai/reply_catcher.sh > /dev/null
