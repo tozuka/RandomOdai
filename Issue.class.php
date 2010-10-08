@@ -1,6 +1,6 @@
 <?php
 
-class Issue extends Database {
+class Issue extends Database_pdo {
   public $id, $subject, $description, $status;
 
   protected function getTableName()
@@ -16,12 +16,12 @@ class Issue extends Database {
 	$this->status      = $status;
   }
 
-  protected function bindValues($stmt)
+  protected function bindValues()
   {
-    $stmt->bindValue(':id', $this->id, SQLITE3_INTEGER);
-    $stmt->bindValue(':subject', $this->subject, SQLITE3_TEXT);
-    $stmt->bindValue(':description', $this->description, SQLITE3_TEXT);
-    $stmt->bindValue(':status', $this->status, SQLITE3_INTEGER);
+    $this->bindValue(':id', $this->id, SQLITE3_INTEGER);
+    $this->bindValue(':subject', $this->subject, SQLITE3_TEXT);
+    $this->bindValue(':description', $this->description, SQLITE3_TEXT);
+    $this->bindValue(':status', $this->status, SQLITE3_INTEGER);
   }
 
   protected function getCreateSQL()

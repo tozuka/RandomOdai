@@ -1,8 +1,6 @@
 <?php
 
-require_once('Database.class.php');
-
-class Tweet extends Database {
+class Tweet extends Database_pdo {
   public $id, $created_at, $text, $in_reply_to_status_id, $in_reply_to_user_id, $user_id, $issue_id, $status, $is_mine;
 
   protected function getTableName()
@@ -23,17 +21,17 @@ class Tweet extends Database {
     $this->is_mine               = $is_mine;
   }
 
-  protected function bindValues($stmt)
+  protected function bindValues()
   {
-    $stmt->bindValue(':id', (string)$this->id, SQLITE3_TEXT);
-    $stmt->bindValue(':created_at', $this->created_at, SQLITE3_INTEGER);
-    $stmt->bindValue(':text', $this->text, SQLITE3_TEXT);
-    $stmt->bindValue(':in_reply_to_status_id', $this->in_reply_to_status_id, SQLITE3_TEXT);
-    $stmt->bindValue(':in_reply_to_user_id', $this->in_reply_to_user_id, SQLITE3_TEXT);
-    $stmt->bindValue(':user_id', $this->user_id, SQLITE3_TEXT);
-    $stmt->bindValue(':issue_id', $this->issue_id, SQLITE3_TEXT);
-    $stmt->bindValue(':status', $this->status, SQLITE3_INTEGER);
-    $stmt->bindValue(':is_mine', $this->is_mine, SQLITE3_INTEGER);
+    $this->bindValue(':id', (string)$this->id, SQLITE3_TEXT);
+    $this->bindValue(':created_at', $this->created_at, SQLITE3_INTEGER);
+    $this->bindValue(':text', $this->text, SQLITE3_TEXT);
+    $this->bindValue(':in_reply_to_status_id', $this->in_reply_to_status_id, SQLITE3_TEXT);
+    $this->bindValue(':in_reply_to_user_id', $this->in_reply_to_user_id, SQLITE3_TEXT);
+    $this->bindValue(':user_id', $this->user_id, SQLITE3_TEXT);
+    $this->bindValue(':issue_id', $this->issue_id, SQLITE3_TEXT);
+    $this->bindValue(':status', $this->status, SQLITE3_INTEGER);
+    $this->bindValue(':is_mine', $this->is_mine, SQLITE3_INTEGER);
   }
 
   protected function getCreateSQL()

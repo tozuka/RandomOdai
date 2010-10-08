@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/local/bin/bash
 pushd .
-cd /home/tozuka/tjwork/twitter/randomodai
-/usr/bin/php reply_catcher.php
+cd /home/naoyat/randomodai
+/usr/local/bin/php reply_catcher.php
 popd
 

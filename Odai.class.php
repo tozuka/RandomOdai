@@ -1,6 +1,6 @@
 <?php
 
-class Odai extends Database {
+class Odai extends Database_pdo {
   public $id, $odai, $is_valid, $author_id;
 
   protected function getTableName()
@@ -11,17 +11,17 @@ class Odai extends Database {
   public function __construct($odai, $is_valid=true, $author_id=null)
   {
     $this->id        = null;
-	$this->odai      = $odai;
-	$this->is_valid  = $is_valid ? 1 : 0;
-	$this->author_id = $author_id;
+    $this->odai      = $odai;
+    $this->is_valid  = $is_valid ? 1 : 0;
+    $this->author_id = $author_id;
   }
 
-  protected function bindValues($stmt)
+  protected function bindValues()
   {
-    $stmt->bindValue(':id', $this->id, SQLITE3_INTEGER);
-    $stmt->bindValue(':odai', $this->odai, SQLITE3_TEXT);
-    $stmt->bindValue(':is_valid', $this->is_valid, SQLITE3_INTEGER);
-    $stmt->bindValue(':author_id', $this->author_id, SQLITE3_TEXT);
+    $this->bindValue(':id', $this->id, SQLITE3_INTEGER);
+    $this->bindValue(':odai', $this->odai, SQLITE3_TEXT);
+    $this->bindValue(':is_valid', $this->is_valid, SQLITE3_INTEGER);
+    $this->bindValue(':author_id', $this->author_id, SQLITE3_TEXT);
   }
 
   protected function getCreateSQL()

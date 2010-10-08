@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/local/bin/bash
 pushd . > /dev/null
-cd /home/tozuka/tjwork/twitter/randomodai
-/usr/bin/php odai_randomizer.php
+cd /home/naoyat/randomodai
+/usr/local/bin/php -n odai_randomizer.php
 popd > /dev/null
 

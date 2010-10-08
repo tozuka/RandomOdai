@@ -44,11 +44,11 @@ abstract class Database {
     $this->execute($this->getUpdateSQL());
   }
 
-  protected function create($auto_increment=true)
+  protected function create()
   {
     $this->execute($this->getCreateSQL());
 
-    if ($auto_increment) $this->id = $this->getDatabase()->lastInsertRowID();
+    if (null === $this->id) $this->id = $this->getDatabase()->lastInsertRowID();
     $this->has_record = true;
   }
 
@@ -73,22 +73,30 @@ abstract class Database {
   // static version
   protected static function st_getDatabase()
   {
+echo "c";
     if (!self::$db)
     {
+echo "d";
       self::$db = new SQLite3('tweets.db');
+      return new SQLite3('tweets.db');
     }
+echo "e";
     return self::$db;
   }
 
   public static function st_execute($sql) // no bindValues
   {
-    self::st_getDatabase();
-    return self::$db->prepare($sql)->execute();
+echo 3;
+    $db = self::st_getDatabase();
+echo 4;
+    return $db->prepare($sql)->execute();
   }
 
   protected static function st_fetchOne($sql)
   {
+echo "st_fetchOne($sql)\n";
     $result = self::st_execute($sql);
+echo "result = ".print_r($result,true);
     $rs = $result->fetchArray();
     return $rs[0];
   }
@@ -97,5 +105,6 @@ abstract class Database {
 #  {
 #    return self::st_fetchOne('SELECT max(id) FROM '. self::getTableName());
 #  }
+
 
 }

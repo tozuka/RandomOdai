@@ -1,8 +1,6 @@
 <?php
 
-require_once('Database.class.php');
-
-class User extends Database {
+class User extends Database_pdo {
   public $id, $name, $screenname, $location, $description, $profile_image_url, $protected, $is_spam;
 
   protected function getTableName()
@@ -22,16 +20,16 @@ class User extends Database {
 	$this->is_spam           = $is_spam;
   }
 
-  protected function bindValues($stmt)
+  protected function bindValues()
   {
-    $stmt->bindValue(':id', $this->id, SQLITE3_INTEGER);
-    $stmt->bindValue(':name', $this->name, SQLITE3_TEXT);
-    $stmt->bindValue(':screenname', $this->screenname, SQLITE3_TEXT);
-    $stmt->bindValue(':location', $this->location, SQLITE3_TEXT);
-    $stmt->bindValue(':description', $this->description, SQLITE3_TEXT);
-    $stmt->bindValue(':profile_image_url', $this->profile_image_url, SQLITE3_TEXT);
-    $stmt->bindValue(':protected', $this->protected, SQLITE3_INTEGER);
-    $stmt->bindValue(':is_spam', $this->is_spam, SQLITE3_INTEGER);
+    $this->bindValue(':id', $this->id, SQLITE3_INTEGER);
+    $this->bindValue(':name', $this->name, SQLITE3_TEXT);
+    $this->bindValue(':screenname', $this->screenname, SQLITE3_TEXT);
+    $this->bindValue(':location', $this->location, SQLITE3_TEXT);
+    $this->bindValue(':description', $this->description, SQLITE3_TEXT);
+    $this->bindValue(':profile_image_url', $this->profile_image_url, SQLITE3_TEXT);
+    $this->bindValue(':protected', $this->protected, SQLITE3_INTEGER);
+    $this->bindValue(':is_spam', $this->is_spam, SQLITE3_INTEGER);
   }
 
   protected function getCreateSQL()
