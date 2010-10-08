@@ -14,21 +14,20 @@ class Odai extends Database_pdo {
     $this->odai      = $odai;
     $this->is_valid  = $is_valid ? 1 : 0;
     $this->author_id = $author_id;
-
-    $this->bindValues();
   }
 
-  protected function bindValues()
+  protected function bindValues($stmt)
   {
-    $this->bindValue(':id', $this->id, SQLITE3_INTEGER);
-    $this->bindValue(':odai', $this->odai, SQLITE3_TEXT);
-    $this->bindValue(':is_valid', $this->is_valid, SQLITE3_INTEGER);
-    $this->bindValue(':author_id', $this->author_id, SQLITE3_TEXT);
+    if ($this->id) $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+    $stmt->bindValue(':odai', $this->odai, PDO::PARAM_STR);
+    $stmt->bindValue(':is_valid', $this->is_valid, PDO::PARAM_INT);
+    $stmt->bindValue(':author_id', $this->author_id, PDO::PARAM_INT);
   }
 
   protected function getCreateSQL()
   {
-    return 'INSERT INTO odais VALUES (NULL,:odai,:is_valid,:author_id)';
+    # return 'INSERT INTO odais VALUES (NULL,:odai,:is_valid,:author_id)';
+    return 'INSERT INTO odais (odai,is_valid,author_id) VALUES (:odai,:is_valid,:author_id)';
   }
 
   protected function getUpdateSQL()

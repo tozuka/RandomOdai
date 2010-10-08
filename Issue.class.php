@@ -14,16 +14,14 @@ class Issue extends Database_pdo {
     $this->subject     = $subject;
     $this->description = $description;
     $this->status      = $status;
-
-    $this->bindValues();
   }
 
-  protected function bindValues()
+  protected function bindValues($stmt)
   {
-    $this->bindValue(':id', $this->id, SQLITE3_INTEGER);
-    $this->bindValue(':subject', $this->subject, SQLITE3_TEXT);
-    $this->bindValue(':description', $this->description, SQLITE3_TEXT);
-    $this->bindValue(':status', $this->status, SQLITE3_INTEGER);
+    $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+    $stmt->bindValue(':subject', $this->subject, PDO::PARAM_STR);
+    $stmt->bindValue(':description', $this->description, PDO::PARAM_STR);
+    $stmt->bindValue(':status', $this->status, PDO::PARAM_INT);
   }
 
   protected function getCreateSQL()

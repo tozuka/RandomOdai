@@ -19,21 +19,19 @@ class Tweet extends Database_pdo {
     $this->issue_id              = $issue_id;
     $this->status                = $status;
     $this->is_mine               = $is_mine;
-
-    $this->bindValues();
   }
 
-  protected function bindValues()
+  protected function bindValues($stmt)
   {
-    $this->bindValue(':id', (string)$this->id, SQLITE3_TEXT);
-    $this->bindValue(':created_at', $this->created_at, SQLITE3_INTEGER);
-    $this->bindValue(':text', $this->text, SQLITE3_TEXT);
-    $this->bindValue(':in_reply_to_status_id', $this->in_reply_to_status_id, SQLITE3_TEXT);
-    $this->bindValue(':in_reply_to_user_id', $this->in_reply_to_user_id, SQLITE3_TEXT);
-    $this->bindValue(':user_id', $this->user_id, SQLITE3_TEXT);
-    $this->bindValue(':issue_id', $this->issue_id, SQLITE3_TEXT);
-    $this->bindValue(':status', $this->status, SQLITE3_INTEGER);
-    $this->bindValue(':is_mine', $this->is_mine, SQLITE3_INTEGER);
+    $stmt->bindValue(':id', (string)$this->id, PDO::PARAM_STR);
+    $stmt->bindValue(':created_at', $this->created_at, PDO::PARAM_INT);
+    $stmt->bindValue(':text', $this->text, PDO::PARAM_STR);
+    $stmt->bindValue(':in_reply_to_status_id', $this->in_reply_to_status_id, PDO::PARAM_STR);
+    $stmt->bindValue(':in_reply_to_user_id', $this->in_reply_to_user_id, PDO::PARAM_STR);
+    $stmt->bindValue(':user_id', $this->user_id, PDO::PARAM_STR);
+    $stmt->bindValue(':issue_id', $this->issue_id, PDO::PARAM_STR);
+    $stmt->bindValue(':status', $this->status, PDO::PARAM_INT);
+    $stmt->bindValue(':is_mine', $this->is_mine, PDO::PARAM_INT);
   }
 
   protected function getCreateSQL()

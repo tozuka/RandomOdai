@@ -18,20 +18,18 @@ class User extends Database_pdo {
     $this->profile_image_url = $profile_image_url;
     $this->protected         = ('true' === $protected)? true : false;
     $this->is_spam           = $is_spam;
-
-    $this->bindValues();
   }
 
-  protected function bindValues()
+  protected function bindValues($stmt)
   {
-    $this->bindValue(':id', $this->id, SQLITE3_TEXT);
-    $this->bindValue(':name', $this->name, SQLITE3_TEXT);
-    $this->bindValue(':screenname', $this->screenname, SQLITE3_TEXT);
-    $this->bindValue(':location', $this->location, SQLITE3_TEXT);
-    $this->bindValue(':description', $this->description, SQLITE3_TEXT);
-    $this->bindValue(':profile_image_url', $this->profile_image_url, SQLITE3_TEXT);
-    $this->bindValue(':protected', $this->protected, SQLITE3_INTEGER);
-    $this->bindValue(':is_spam', $this->is_spam, SQLITE3_INTEGER);
+    $stmt->bindValue(':id', $this->id, PDO::PARAM_STR);
+    $stmt->bindValue(':name', $this->name, PDO::PARAM_STR);
+    $stmt->bindValue(':screenname', $this->screenname, PDO::PARAM_STR);
+    $stmt->bindValue(':location', $this->location, PDO::PARAM_STR);
+    $stmt->bindValue(':description', $this->description, PDO::PARAM_STR);
+    $stmt->bindValue(':profile_image_url', $this->profile_image_url, PDO::PARAM_STR);
+    $stmt->bindValue(':protected', $this->protected, PDO::PARAM_INT);
+    $stmt->bindValue(':is_spam', $this->is_spam, PDO::PARAM_INT);
   }
 
   protected function getCreateSQL()
