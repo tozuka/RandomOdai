@@ -11,9 +11,11 @@ class Issue extends Database_pdo {
   public function __construct($id, $subject, $description, $status)
   {
     $this->id          = $id;
-	$this->subject     = $subject;
-	$this->description = $description;
-	$this->status      = $status;
+    $this->subject     = $subject;
+    $this->description = $description;
+    $this->status      = $status;
+
+    $this->bindValues();
   }
 
   protected function bindValues()

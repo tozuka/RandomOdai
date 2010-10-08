@@ -12,17 +12,19 @@ class User extends Database_pdo {
   {
     $this->id                = $id;
     $this->name              = $name;
-	$this->screenname        = $screenname;
-	$this->location          = $location;
-	$this->description       = $description;
-	$this->profile_image_url = $profile_image_url;
-	$this->protected         = $protected;
-	$this->is_spam           = $is_spam;
+    $this->screenname        = $screenname;
+    $this->location          = $location;
+    $this->description       = $description;
+    $this->profile_image_url = $profile_image_url;
+    $this->protected         = ('true' === $protected)? true : false;
+    $this->is_spam           = $is_spam;
+
+    $this->bindValues();
   }
 
   protected function bindValues()
   {
-    $this->bindValue(':id', $this->id, SQLITE3_INTEGER);
+    $this->bindValue(':id', $this->id, SQLITE3_TEXT);
     $this->bindValue(':name', $this->name, SQLITE3_TEXT);
     $this->bindValue(':screenname', $this->screenname, SQLITE3_TEXT);
     $this->bindValue(':location', $this->location, SQLITE3_TEXT);

@@ -14,6 +14,8 @@ class Odai extends Database_pdo {
     $this->odai      = $odai;
     $this->is_valid  = $is_valid ? 1 : 0;
     $this->author_id = $author_id;
+
+    $this->bindValues();
   }
 
   protected function bindValues()
@@ -37,5 +39,14 @@ class Odai extends Database_pdo {
   public static function getRandomOdai()
   {
     return self::st_fetchOne('SELECT odai FROM odais ORDER BY random() LIMIT 1');
+  }
+
+  public static function isKnownOdai($odai)
+  {
+    $pdo = self::st_getDatabase();
+    $stmt = $pdo->prepare('SELECT count(*) FROM odais WHERE odai=?');
+    $result = $stmt->execute(array($odai));
+    $r = $stmt->fetch(PDO::FETCH_NUM);
+    return ('0' === $r[0]) ? false : true;
   }
 }

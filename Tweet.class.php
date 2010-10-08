@@ -19,6 +19,8 @@ class Tweet extends Database_pdo {
     $this->issue_id              = $issue_id;
     $this->status                = $status;
     $this->is_mine               = $is_mine;
+
+    $this->bindValues();
   }
 
   protected function bindValues()

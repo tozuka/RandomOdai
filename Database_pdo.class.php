@@ -30,12 +30,12 @@ abstract class Database_pdo {
 
   private function checkExistence()
   {
-    return $this->fetchOne('SELECT count(*) FROM '.$this->getTableName().' WHERE id=:id');
+    return self::st_fetchOne('SELECT count(*) FROM '.$this->getTableName().' WHERE id='.$this->properties[':id']);
   }
 
   protected function bindValue($key, $value, $type)
   {
-    $properties[$key] = $value;
+    $this->properties[$key] = $value;
   }
   // abstract protected function bindValues($stmt); // for SQLite3
 
@@ -46,7 +46,10 @@ abstract class Database_pdo {
   {
     $stmt = $this->getDatabase()->prepare($sql);
     $result = $stmt->execute( $this->properties );
-    printf("execute('%s')... => %s\n", $sql, $this->getDatabase()->lastErrorMsg());
+
+    $error_info = $this->getDatabase()->errorInfo();
+    printf("execute('%s')... => %s\n", $sql, $error_info[2]);
+
     return $stmt->fetchAll();
   }
   protected function fetchOne($sql)
@@ -66,7 +69,11 @@ abstract class Database_pdo {
   {
     $this->execute($this->getCreateSQL());
 
-    if (null === $this->id) $this->id = $this->getDatabase()->lastInsertRowID();
+    if (null === $this->id)
+    {
+      $this->id = $this->getDatabase()->lastInsertId();
+      $this->bindValue(':id', $this->id, SQLITE3_TEXT);
+    }
     $this->has_record = true;
   }
 

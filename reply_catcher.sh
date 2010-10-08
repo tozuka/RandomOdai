@@ -1,6 +1,6 @@
 #!/usr/local/bin/bash
-pushd .
+pushd . > /dev/null
 cd /home/naoyat/randomodai
-/usr/local/bin/php reply_catcher.php
-popd
+/usr/local/bin/php -n reply_catcher.php
+popd > /dev/null
 
