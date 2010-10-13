@@ -3,7 +3,7 @@
 function getMyDatabase()
 {
   try {
-    $pdo = new PDO('sqlite:/home/naoyat/randomodai/tweets.db');
+    $pdo = new PDO('sqlite:/home/naoyat/RandomOdai/tweets.db');
     # $pdo = new PDO('sqlite:tweets.db');
   } catch (PDOException $e) {
     print('Error: '.$e->getMessage());
