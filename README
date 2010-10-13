@@ -1,3 +1,24 @@
-カラオケお題ランダマイザ
+=====
+Title
+=====
+Karaoke Odai Randomizer
 
-by tozuka@tejimaya.com
+======
+Author
+======
+Naoya Tozuka <tozuka@tejimaya.com>
+
+=======
+License
+=======
+OAuth.php:
+  http://code.google.com/p/oauth-php/
+  see LICENSE.OAuth
+
+twitterOAuth.php:
+  Copyright (c) 2009 Abraham Williams - http://abrah.am - abraham@poseurte.ch
+  see LICENSE.twitterOAuth and http://github.com/abraham/twitteroauth
+
+Other files:
+  Copyright (c) 2010 Naoya Tozuka - tozuka@tejimaya.com
+  See LICENSE.RandomOdai
