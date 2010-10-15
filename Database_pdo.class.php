@@ -2,9 +2,9 @@
 
 function getMyDatabase()
 {
+  $dbpath = dirname(__FILE__).'/tweets.db';
   try {
-    $pdo = new PDO('sqlite:/home/naoyat/RandomOdai/tweets.db');
-    # $pdo = new PDO('sqlite:tweets.db');
+    $pdo = new PDO('sqlite:'.$dbpath);
   } catch (PDOException $e) {
     print('Error: '.$e->getMessage());
     die();
@@ -41,11 +41,17 @@ abstract class Database_pdo {
   protected function execute($sql)
   {
     $stmt = $this->getDatabase()->prepare($sql);
+    if (!$stmt) {
+      $error_info = $this->getDatabase()->errorInfo();
+      //printf("execute('%s')... => %s\n", $sql, $error_info[2]);
+      return null;
+    }
+
     $this->bindValues($stmt);
     $result = $stmt->execute();
 
     $error_info = $this->getDatabase()->errorInfo();
-#    printf("execute('%s')... => %s\n", $sql, $error_info[2]);
+    //printf("execute('%s')... => %s\n", $sql, $error_info[2]);
 
     return $stmt->fetchAll();
   }
