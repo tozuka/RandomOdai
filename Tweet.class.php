@@ -18,7 +18,7 @@ class Tweet extends Database_pdo {
     $this->user_id               = $user_id;
     $this->issue_id              = $issue_id;
     $this->status                = $status;
-    $this->is_mine               = $is_mine;
+    $this->is_mine               = $is_mine ? 1 : 0;
   }
 
   protected function bindValues($stmt)
@@ -36,12 +36,12 @@ class Tweet extends Database_pdo {
 
   protected function getCreateSQL()
   {
-    return 'INSERT INTO tweets (id,created_at,text,in_reply_to_status_id,in_reply_to_user_id,user_id,issue_id,status,is_mine) VALUES (:id,:created_at,:text,:in_reply_to_status_id,:in_reply_to_user_id,:user_id,:issue_id,:status,:is_mine)';
+    return 'INSERT INTO '.$this->getTableName().' (id,created_at,text,in_reply_to_status_id,in_reply_to_user_id,user_id,issue_id,status,is_mine) VALUES (:id,:created_at,:text,:in_reply_to_status_id,:in_reply_to_user_id,:user_id,:issue_id,:status,:is_mine)';
   }
 
   protected function getUpdateSQL()
   {
-    return 'UPDATE tweets SET created_at=:created_at,text=:text,in_reply_to_status_id=:in_reply_to_status_id,in_reply_to_user_id=:in_reply_to_user_id,user_id=:user_id,issue_id=:issue_id,status=:status,is_mine=:is_mine WHERE id=:id';
+    return 'UPDATE '.$this->getTableName().' SET created_at=:created_at,text=:text,in_reply_to_status_id=:in_reply_to_status_id,in_reply_to_user_id=:in_reply_to_user_id,user_id=:user_id,issue_id=:issue_id,status=:status,is_mine=:is_mine WHERE id=:id';
   }
 
   public function setIssueId($issue_id, $tweet_id=null)
@@ -50,9 +50,7 @@ class Tweet extends Database_pdo {
   {
     $this->issue_id = $issue_id;
     if (!$tweet_id) $tweet_id = $this->id;
-#    $this->execute('UPDATE tweets SET issue_id=:issue_id WHERE id=:id');
-printf("// %s:%s\n", $tweet_id, $this->id);
-    $this->execute('UPDATE tweets SET issue_id=' . $issue_id . ' WHERE id=' . $tweet_id);
+    $this->execute('UPDATE '.$this->getTableName().' SET issue_id=' . $issue_id . ' WHERE id=' . $tweet_id);
   }
 
   public static function maxId()

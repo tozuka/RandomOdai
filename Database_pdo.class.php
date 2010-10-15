@@ -115,6 +115,12 @@ abstract class Database_pdo {
     return $stmt->fetchAll();
   }
 
+  protected static function st_fetch($sql)
+  {
+    $stmt = self::st_getDatabase()->prepare($sql);
+    $result = $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_NUM);
+  }
   protected static function st_fetchOne($sql)
   {
     $stmt = self::st_getDatabase()->prepare($sql);
