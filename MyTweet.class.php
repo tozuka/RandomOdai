@@ -42,14 +42,14 @@ class MyTweet extends Tweet {
 
   public static function increment_ninki($id, $delta=1)
   {
-    if ($delta > 0) { $delta = 1; $incr = '++'; }
-    elseif ($delta < 0) { $delta = -1; $incr = '--'; }
+    if ($delta > 0) { $delta = '+1'; $incr = '++'; }
+    elseif ($delta < 0) { $delta = '-1'; $incr = '--'; }
     else return null;
  
     $odai_id = self::st_fetchOne('SELECT odai_id FROM my_tweets WHERE id='.$id);
     if (!$odai_id) return null;
 
-    self::st_execute('UPDATE odais SET ninki=ninki+'.$delta.' WHERE id='.$odai_id);
+    self::st_execute('UPDATE odais SET ninki=ninki'.$delta.' WHERE id='.$odai_id);
 
     $odai = self::st_fetchOne('SELECT odai FROM odais WHERE id='.$odai_id);
     if (!$odai) return null;
