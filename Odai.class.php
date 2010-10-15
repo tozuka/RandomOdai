@@ -38,7 +38,7 @@ class Odai extends Database_pdo {
   public static function getRandomOdai()
   {
 #    return self::st_fetchOne('SELECT odai FROM odais ORDER BY random() LIMIT 1');
-    return self::st_fetch('SELECT id,odai FROM odais ORDER BY random() LIMIT 1');
+    return self::st_fetch('SELECT id,odai FROM odais WHERE is_valid=1 ORDER BY random() LIMIT 1');
   }
 
   public static function isKnownOdai($odai)
