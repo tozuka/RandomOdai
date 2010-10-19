@@ -55,7 +55,7 @@
                                        $status->created_at,
                                        $status->id, $status->in_reply_to_user_id, $status->in_reply_to_status_id,
                                        $odai_text);
-
+if (false) {
     if ($my_user_id == $status->in_reply_to_user_id && $status->in_reply_to_status_id) {
       $delta = (int)$odai_text;
       if (!$delta) {
@@ -72,8 +72,9 @@
       }
       continue;
     }
+}
 
-    $created_at = time(); // $status->created_at;
+   $created_at = time(); // $status->created_at;
     $tweet = new Tweet((string)$status->id,
                        (string)$created_at,
                        (string)$odai_text,
