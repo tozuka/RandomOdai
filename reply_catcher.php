@@ -78,6 +78,10 @@
       $freq = 4;
     } elseif (FALSE !== strpos($content, 'frequency')) {
       $freq = Config::getValue('frequency', 3);
+    } elseif (FALSE !== strpos($content, 'login')) {
+      $freq = 2;
+    } elseif (FALSE !== strpos($content, 'logout')) {
+      $freq = 3;
     }
     if ($freq) {
       Config::setValue('frequency', $freq);
