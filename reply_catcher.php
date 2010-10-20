@@ -67,14 +67,28 @@
                                        $status->id, $status->in_reply_to_user_id, $status->in_reply_to_status_id,
                                        $content);
 
+    $freq = null;
     if (FALSE !== strpos($content, 'a tempo')) {
-      Config::setValue('frequency', 3);
-      continue;
+      $freq = 3;
     } elseif (FALSE !== strpos($content, 'faster')) {
-      Config::setValue('frequency', 2);
-      continue;
+      $freq = 2;
     } elseif (FALSE !== strpos($content, 'fastest')) {
-      Config::setValue('frequency', 1);
+      $freq = 1;
+    } elseif (FALSE !== strpos($content, 'slower')) {
+      $freq = 4;
+    } elseif (FALSE !== strpos($content, 'frequency')) {
+      $freq = Config::getValue('frequency', 3);
+    }
+    if ($freq) {
+      Config::setValue('frequency', $freq);
+      switch ($freq) {
+        case 1: $freq_msg = 'every minute'; break;
+        case 2: $freq_msg = 'every other minute'; break;
+        default: $freq_msg = sprintf('every %d minutes', $freq); break;
+      }
+      $content = $to->oAuthRequest('https://api.twitter.com/1/statuses/update.xml', 'POST',
+  				   array('status' => sprintf('@%s %s', $user->screenname, $freq_msg),
+				   'in_reply_to_status_id' => $status->id) );
       continue;
     }
 
