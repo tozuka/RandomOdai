@@ -34,13 +34,13 @@ class Config extends Database_pdo {
     return 'UPDATE configs SET value=:value WHERE name=:name';
   }
 
-  public static function getValue($name)
+  public static function getValue($name, $default=null)
   {
     $pdo = self::st_getDatabase();
     $stmt = $pdo->prepare('SELECT value FROM configs WHERE name=?');
     $stmt->execute(array($name));
     $r = $stmt->fetch(PDO::FETCH_NUM);
-    return $r[0]; 
+    return $r ? $r[0] : $default; 
   }
 
   public static function resetValue($name)

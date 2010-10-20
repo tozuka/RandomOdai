@@ -5,6 +5,16 @@
   require_once('Database_pdo.class.php');
   require_once('Odai.class.php');
   require_once('MyTweet.class.php');
+  require_once('Config.class.php');
+
+  $frequency = Config::getValue('frequency', 3);
+  if ($frequency < 1) $frequency = 1;
+  elseif ($frequency > 10) $frequency = 10;
+
+  $now = idate('i');
+  if ($now % $frequency) exit;
+
+  // $frequency分に1度だけ起動
 
   $odai = Odai::getRandomOdai();
   $odai_id = $odai[0]; $odai_text = $odai[1];

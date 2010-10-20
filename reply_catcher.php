@@ -8,6 +8,7 @@
   require_once('User.class.php');
   require_once('Issue.class.php');
   require_once('Odai.class.php');
+  require_once('Config.class.php');
 
   $thanks_message = 'お題を登録しました。うべー。';
   $known_odai_message = 'そのお題は既に登録されています。';
@@ -50,17 +51,38 @@
                      (string)$twuser->protected);
     $user->save();
 
-    $odai_text = (string)trim( preg_replace('/@'.$my_screenname.' */', '', $status->text) );
+    $content = (string)trim( preg_replace('/@'.$my_screenname.' */', '', $status->text) );
+    $created_at = time(); // $status->created_at;
+
+    $tweet = new Tweet((string)$status->id,
+                       (string)$created_at,
+                       (string)$content,
+                       (string)$status->in_reply_to_status_id,
+                       (string)$status->in_reply_to_user_id,
+                       (string)$status->user->id);
+    $tweet->save();
+
     printf("%s (%s) > { '%s' %s %s %s } %s\n", $user->name, $user->screenname,
                                        $status->created_at,
                                        $status->id, $status->in_reply_to_user_id, $status->in_reply_to_status_id,
-                                       $odai_text);
-if (false) {
+                                       $content);
+
+    if (FALSE !== strpos($content, 'a tempo')) {
+      Config::setValue('frequency', 3);
+      continue;
+    } elseif (FALSE !== strpos($content, 'faster')) {
+      Config::setValue('frequency', 2);
+      continue;
+    } elseif (FALSE !== strpos($content, 'fastest')) {
+      Config::setValue('frequency', 1);
+      continue;
+    }
+
     if ($my_user_id == $status->in_reply_to_user_id && $status->in_reply_to_status_id) {
-      $delta = (int)$odai_text;
+      $delta = (int)$content;
       if (!$delta) {
-        if (FALSE !== strpos($odai_text, 'イイネ')) $delta = 1;
-        elseif (FALSE !== strpos($odai_text, 'ひどい')) $delta = -1;
+        if (FALSE !== strpos($content, 'イイネ')) $delta = 1;
+        elseif (FALSE !== strpos($content, 'ひどい')) $delta = -1;
       }
       if ($delta) {
         $msg = MyTweet::increment_ninki($status->in_reply_to_status_id, $delta);
@@ -72,30 +94,20 @@ if (false) {
       }
       continue;
     }
-}
 
-   $created_at = time(); // $status->created_at;
-    $tweet = new Tweet((string)$status->id,
-                       (string)$created_at,
-                       (string)$odai_text,
-                       (string)$status->in_reply_to_status_id,
-                       (string)$status->in_reply_to_user_id,
-                       (string)$status->user->id);
-    $tweet->save();
-
-    if (Odai::isKnownOdai($odai_text))
+    if (Odai::isKnownOdai($content))
     {
       $msg = $known_odai_message;
     }
     else
     {
-      $odai = new Odai( $odai_text, true, $user->id );
+      $odai = new Odai( $content, true, $user->id );
       $odai->save();
       $msg = $thanks_message;
     }
-    printf("@%s %s > %s\n", $user->screenname, $msg, $odai_text);
+    printf("@%s %s > %s\n", $user->screenname, $msg, $content);
 
     $content = $to->oAuthRequest('https://api.twitter.com/1/statuses/update.xml', 'POST',
-				 array('status' => sprintf('@%s %s > %s', $user->screenname, $msg, $odai_text),
+				 array('status' => sprintf('@%s %s > %s', $user->screenname, $msg, $content),
 				 'in_reply_to_status_id' => $status->id) );
   }
