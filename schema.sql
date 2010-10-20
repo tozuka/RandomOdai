@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
-  id                 INTEGER PRIMARY KEY, /* twitter の user idをそのまま */
+  id                 INTEGER PRIMARY KEY AUTOINCREMENT, /* twitter の user idをそのまま */
   name               TEXT,
   screenname         TEXT,
   location           TEXT,
@@ -12,7 +12,7 @@ CREATE TABLE users (
 
 DROP TABLE IF EXISTS tweets;
 CREATE TABLE tweets (
-  id                     INTEGER PRIMARY KEY, /* twitterのtweet idをそのまま */
+  id                     INTEGER PRIMARY KEY AUTOINCREMENT, /* twitterのtweet idをそのまま */
   created_at             INTEGER DEFAULT NULL, /* unix time */
   text                   TEXT NOT NULL,
   in_reply_to_status_id  INTEGER DEFAULT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE tweets (
 
 DROP TABLE IF EXISTS issues;
 CREATE TABLE issues (
-  id                INTEGER PRIMARY KEY,
+  id                INTEGER PRIMARY KEY AUTOINCREMENT,
   subject           TEXT,
   description       TEXT,
   status            INTEGER DEFAULT 0
@@ -33,7 +33,7 @@ CREATE TABLE issues (
 
 DROP TABLE IF EXISTS odais;
 CREATE TABLE odais (
-  id         INTEGER PRIMARY KEY,
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
   odai       TEXT NOT NULL,
   is_valid   INTEGER DEFAULT 1,
   author_id  INTEGER DEFAULT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE odais (
 
 DROP TABLE IF EXISTS my_tweets;
 CREATE TABLE my_tweets (
-  id                     INTEGER PRIMARY KEY, /* twitterのtweet idをそのまま */
+  id                     INTEGER PRIMARY KEY AUTOINCREMENT, /* twitterのtweet idをそのまま */
   created_at             INTEGER DEFAULT NULL, /* unix time */
   text                   TEXT NOT NULL,
   in_reply_to_status_id  INTEGER DEFAULT NULL,
@@ -52,5 +52,12 @@ CREATE TABLE my_tweets (
   status                 INTEGER DEFAULT 0, /* 要返答とか */
   is_mine                INTEGER DEFAULT 0, /* bool */
   odai_id                INTEGER
+);
+
+DROP TABLE IF EXISTS configs;
+CREATE TABLE configs (
+  id     INTEGER PRIMARY KEY AUTOINCREMENT,
+  name   TEXT NOT NULL UNIQUE,
+  value  TEXT
 );
 
