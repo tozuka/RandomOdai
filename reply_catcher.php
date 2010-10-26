@@ -95,7 +95,7 @@
 				   'in_reply_to_status_id' => $status->id) );
       continue;
     }
-
+/*
     if ($my_user_id == $status->in_reply_to_user_id && $status->in_reply_to_status_id) {
       $delta = (int)$content;
       if (!$delta) {
@@ -112,7 +112,7 @@
       }
       continue;
     }
-
+*/
     if (Odai::isKnownOdai($content))
     {
       $msg = $known_odai_message;
@@ -123,9 +123,11 @@
       $odai->save();
       $msg = $thanks_message;
     }
-    printf("@%s %s > %s\n", $user->screenname, $msg, $content);
+
+    $status_to_post = sprintf("@%s %s > %s", $user->screenname, $msg, $content);
+    echo $status_to_post . "\n";
 
     $content = $to->oAuthRequest('https://api.twitter.com/1/statuses/update.xml', 'POST',
-				 array('status' => sprintf('@%s %s > %s', $user->screenname, $msg, $content),
-				 'in_reply_to_status_id' => $status->id) );
+				 array('status' => $status_to_post,
+				       'in_reply_to_status_id' => $status->id) );
   }
